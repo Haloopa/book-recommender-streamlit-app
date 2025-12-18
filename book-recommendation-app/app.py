@@ -1,6 +1,7 @@
 # import library
 import streamlit as st
 import pandas as pd
+import os
 
 # setting judul page dan bikin tampilan halamannya wide
 st.set_page_config(
@@ -10,9 +11,21 @@ st.set_page_config(
 )
 
 # memanggil file style.css
-def load_css(path):
-    with open(path) as f:
-        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+def load_css(filename):
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    css_path = os.path.join(base_dir, filename)
+
+    if not os.path.exists(css_path):
+        st.error(f"CSS file NOT FOUND: {css_path}")
+        return
+
+    with open(css_path, "r") as f:
+        st.markdown(
+            f"<style>{f.read()}</style>",
+            unsafe_allow_html=True
+        )
+
+load_css("style.css")
 
 load_css("style.css")
 
