@@ -14,7 +14,7 @@ def load_css(path):
     with open(path) as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
-load_css("assets/style.css")
+load_css("style.css")
 
 # load dataset recommendations hasil collaborative filtering
 @st.cache_data
