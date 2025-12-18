@@ -24,15 +24,19 @@ def load_css(filename):
             f"<style>{f.read()}</style>",
             unsafe_allow_html=True
         )
-
-load_css("style.css")
-
 load_css("style.css")
 
 # load dataset recommendations hasil collaborative filtering
 @st.cache_data
 def load_data():
-    df = pd.read_csv("recommendations.csv")
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    csv_path = os.path.join(base_dir, "recommendations.csv")
+
+    if not os.path.exists(csv_path):
+        st.error(f"CSV file NOT FOUND: {csv_path}")
+        st.stop()
+
+    df = pd.read_csv(csv_path)
 
     # menghapus beberapa line yang tidak memiliki metadata buku 
     df = df[
@@ -44,7 +48,6 @@ def load_data():
     return df
 
 df = load_data()
-
 
 # fallback recommendation/rekomendasi cadangan untuk user yang punya rekomendasi > 5
 global_popular_books = (
